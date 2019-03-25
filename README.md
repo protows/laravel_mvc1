@@ -1,2 +1,2 @@
 # laravel_mvc1
-this is Laravel mvc app
+this is a Laravel mvc app

@@ -3,7 +3,7 @@
 @section('content')
     <div class="jumbotron text-center">
         <h1>Edit Post</h1>
-        <form method="post" name="article-form" action="{{ route('posts.update', $post->id) }}">
+        <form method="post" name="article-form" enctype="multipart/form-data" action="{{ route('posts.update', $post->id) }}">
            @csrf   
            @method('PUT')
           <div class="form-group">
@@ -16,6 +16,10 @@
               <textarea class="form-control" name="ackeditor">{{$post->body}}>
               </textarea>
            </div>
+           <div class="form-group">
+                <label for="">Multiple File Select</label>
+                <input type="file" class="form-control" name="cover_image" value="/storage/cover_images/".{{$post->cover_image}} multiple>
+            </div>
            
            <button type="submit" class="btn btn-primary">Submit</button>
       </form>

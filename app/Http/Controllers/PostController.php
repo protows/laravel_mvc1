@@ -53,6 +53,7 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+        //print($request->cover_image); exit;
        //print($request->title);
        //print($request->ackeditor); exit;
        
@@ -62,10 +63,27 @@ class PostController extends Controller
         ]);
         //return response()->json('Form is successfully validated and data has been saved');
 
+        //Handle File Upload
+        if($request->hasFile('cover_image')){
+            //Get filename with extension
+            $filenameWithExt = $request->file('cover_image')->getClientOriginalName();
+            //Get just filename
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            //Get just ext
+            $extension = $request->file('cover_image')->getClientOriginalExtension();
+            //Filename to store
+            $fileNameToStore = $filename.'_'.time().'.'.$extension;
+            //Upload Image
+            $path = $request->file('cover_image')->storeAs('public/cover_images', $fileNameToStore);
+        }else{
+            $fileNameToStore = 'noimage.jpg';
+        }
+
         $post = new POST;
         $post->title = $request->input('title');
         $post->body = $request->input('ackeditor');
         $post->user_id = auth()->user()->id;
+        $post->cover_image = $fileNameToStore;
         $post->save();
 
         return redirect('/posts')->with('success', 'Post Created');;
@@ -116,9 +134,26 @@ class PostController extends Controller
         ]);
         //return response()->json('Form is successfully validated and data has been saved');
 
+        //Handle File Upload
+        if($request->hasFile('cover_image')){
+            //Get filename with extension
+            $filenameWithExt = $request->file('cover_image')->getClientOriginalName();
+            //Get just filename
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            //Get just ext
+            $extension = $request->file('cover_image')->getClientOriginalExtension();
+            //Filename to store
+            $fileNameToStore = $filename.'_'.time().'.'.$extension;
+            //Upload Image
+            $path = $request->file('cover_image')->storeAs('public/cover_images', $fileNameToStore);
+        }
+
         $post = POST::find($id);
         $post->title = $request->input('title');
         $post->body = $request->input('ackeditor');
+        if($request->hasFile('cover_image')){
+            $post->cover_image = $fileNameToStore;
+        }
         $post->save();
 
         return redirect('/posts')->with('success', 'Post Updated');

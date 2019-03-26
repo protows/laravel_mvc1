@@ -18,7 +18,7 @@
             <div class="form-group">
                 <label for="">Multiple File Select</label>
                 <input type="file" class="form-control" name="cover_image" multiple>
-                {{-- <input required type="file" class="form-control" name="cover_image" multiple> --}}
+                {{-- <input required type="file" class="form-control" name="cover_image[]" multiple> --}}
             </div>
           <button type="submit" class="btn btn-primary">Submit</button>
       </form>
